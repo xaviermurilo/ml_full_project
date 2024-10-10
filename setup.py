@@ -1,23 +1,21 @@
-from setuptools import find_packages, setup
+from setuptools import setup, find_packages
 from typing import List
 
+CONST_TO_IGNORE = "-e ."
 
-CONST_TO_DEL = '-e .'
-def get_requirements(path: str) -> List[str]:
+def get_packages(path: str) -> List[str]:
     """
-    function return the list of requirements
+    responsible to get and return all libraries in the requirements.txt
     """
 
-    requirements = []
-    with open(path) as req:
-        requirements = req.readlines()
+    all_libraries = []
+    with open(path) as docs:
+        all_libraries = docs.readlines()
+        all_libraries.remove(CONST_TO_IGNORE)
 
-    requirements = [re.replace("\n", "") for re in requirements]
+    all_libraries = [lib.replace("\n", "") for lib in all_libraries]
 
-    if CONST_TO_DEL in requirements:
-        requirements.remove(CONST_TO_DEL)
-
-    return requirements
+    return all_libraries
 
 
 setup(
@@ -26,5 +24,5 @@ setup(
     author='MuriloXavier',
     author_email='xavierdesouzamurilo@gmail.com',
     packages=find_packages(),
-    install_requires=get_requirements('requirements.txt')
+    install_requires=get_packages('requirements.txt')
 )
