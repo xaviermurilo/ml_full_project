@@ -6,7 +6,7 @@ import pandas as pd
 import numpy as np
 from sklearn.model_selection import train_test_split
 from dataclasses import dataclass
-
+from src.config import CONFIG
 
 @dataclass
 class DataIngestionConfig:
@@ -22,7 +22,7 @@ class DataIngestion:
     def initiate_data_ingestion(self):
         logging.info("Enter the data ingestion method or component")
         try:
-            df = pd.read_csv(r"C:\Users\muril\PycharmProjects\ml_full_project\src\artifacts\data.csv")
+            df = pd.read_csv(CONFIG.PATH_DATA_INGESTIONS)
             logging.info("Read the data set as data frame")
 
             os.makedirs(os.path.dirname(self.ingestion_config.train_data_path), exist_ok=True)
@@ -48,3 +48,9 @@ class DataIngestion:
         except Exception as e:
             raise CustomException(e, sys)
 
+
+
+
+if __name__ == "__main__":
+    ob = DataIngestion()
+    ob.initiate_data_ingestion()
